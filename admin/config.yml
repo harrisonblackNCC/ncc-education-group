@@ -1,0 +1,95 @@
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/ncc-education-group
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - name: "general"
+        label: "General Settings"
+        file: "data/settings.json"
+        fields:
+          - { label: "Group Slogan", name: "slogan", widget: "string", default: "Valuing what matters most." }
+          - { label: "Footer Description", name: "footer_description", widget: "string", default: "A family of Christian educational institutions across Queensland." }
+          - { label: "Show POC Banner", name: "show_poc_banner", widget: "boolean", default: true }
+          - { label: "POC Banner Text", name: "poc_banner_text", widget: "string", default: "This is a very rough proof of concept." }
+
+      - name: "hero"
+        label: "Hero Section"
+        file: "data/hero.json"
+        fields:
+          - { label: "Headline Line 1", name: "line1", widget: "string", default: "Valuing what" }
+          - { label: "Headline Line 2 (accent font)", name: "line2", widget: "string", default: "matters most." }
+          - { label: "Description Line 1", name: "desc_line1", widget: "string", default: "Four Christian institutions across Queensland." }
+          - { label: "Description Line 2", name: "desc_line2", widget: "string", default: "One shared commitment to faith, learning, and community." }
+          - { label: "CTA Text", name: "cta_text", widget: "string", default: "Explore our institutions" }
+          - { label: "CTA Link", name: "cta_url", widget: "string", default: "#institutions" }
+          - { label: "Hero Image", name: "image", widget: "image", default: "/images/students.png" }
+
+      - name: "about"
+        label: "About Section"
+        file: "data/about.json"
+        fields:
+          - { label: "Mission Statement", name: "mission", widget: "string", default: "Educating the world to impact for Christ" }
+          - { label: "Quote Text", name: "quote", widget: "text", default: "Education is the food of youth, the delight of old age, and the provocation to grace in the soul." }
+          - { label: "Quote Author", name: "quote_author", widget: "string", default: "St Augustine" }
+          - label: "Paragraphs"
+            name: "paragraphs"
+            widget: "list"
+            fields:
+              - { label: "Text", name: "text", widget: "markdown" }
+
+      - name: "institutions"
+        label: "Institutions"
+        file: "data/institutions.json"
+        fields:
+          - { label: "Section Description Line 1", name: "desc_line1", widget: "string", default: "Four institutions across Queensland." }
+          - { label: "Section Description Line 2", name: "desc_line2", widget: "string", default: "Each serves a different community," }
+          - { label: "Section Description Line 3", name: "desc_line3", widget: "string", default: "all share the same heart." }
+          - label: "Institution Cards"
+            name: "cards"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Tagline", name: "tagline", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Website URL", name: "url", widget: "string" }
+              - { label: "URL Display Text", name: "url_display", widget: "string" }
+              - { label: "Layout", name: "layout", widget: "select", options: ["featured", "default", "horizontal"], default: "default" }
+
+      - name: "stats"
+        label: "Stats"
+        file: "data/stats.json"
+        fields:
+          - label: "Stats"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Number", name: "number", widget: "string" }
+              - { label: "Label", name: "label", widget: "string" }
+
+      - name: "careers"
+        label: "Careers Section"
+        file: "data/careers.json"
+        fields:
+          - { label: "Description Line 1", name: "desc_line1", widget: "string", default: "Join a team that's shaping the next generation across Queensland." }
+          - { label: "Description Line 2", name: "desc_line2", widget: "string", default: "We're always looking for passionate educators, support staff, and leaders who share our values." }
+          - { label: "View All Openings URL", name: "url", widget: "string", default: "#" }
+          - label: "Featured Listings"
+            name: "listings"
+            widget: "list"
+            fields:
+              - { label: "Job Title", name: "title", widget: "string" }
+              - { label: "Location", name: "location", widget: "string" }
+
+      - name: "contact"
+        label: "Contact Section"
+        file: "data/contact.json"
+        fields:
+          - { label: "Description", name: "description", widget: "string", default: "Whether you're exploring enrolment, looking for career opportunities, or want to learn more about the group, we'd love to hear from you." }
+          - { label: "Enquire Button URL", name: "url", widget: "string", default: "#" }

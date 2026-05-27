@@ -1,0 +1,39 @@
+{
+  "desc_line1": "Four institutions across Queensland.",
+  "desc_line2": "Each serves a different community,",
+  "desc_line3": "all share the same heart.",
+  "cards": [
+    {
+      "name": "Nambour Christian College",
+      "tagline": "Sow to Harvest",
+      "description": "The founding campus. A Prep to Year 12 college on the Sunshine Coast, NCC has served families for over three decades with a focus on academic rigour, pastoral care, and Christian community.",
+      "url": "https://ncc.qld.edu.au",
+      "url_display": "ncc.qld.edu.au",
+      "layout": "featured"
+    },
+    {
+      "name": "Gulf Christian College",
+      "tagline": "Creating Opportunity",
+      "description": "Quality Christian schooling for young people in remote and regional Queensland, creating genuine pathways where geography might otherwise limit them.",
+      "url": "https://gulfcc.qld.edu.au",
+      "url_display": "gulfcc.qld.edu.au",
+      "layout": "default"
+    },
+    {
+      "name": "NCC Early Learners",
+      "tagline": "Where it all begins",
+      "description": "Play-based early childhood education in a nurturing, faith-inspired environment. Building foundations that last.",
+      "url": "https://nccearlylearners.com.au",
+      "url_display": "nccearlylearners.com.au",
+      "layout": "default"
+    },
+    {
+      "name": "NCC Swimmers",
+      "tagline": "Learn to Swim & Squads",
+      "description": "Water confidence, technique, and fitness for all ages.",
+      "url": "https://nccswimmers.com.au",
+      "url_display": "nccswimmers.com.au",
+      "layout": "horizontal"
+    }
+  ]
+}

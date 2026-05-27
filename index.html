@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCC Education Group</title>
+<link rel="stylesheet" href="https://use.typekit.net/jvs7hgk.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/main.css">
+</head>
+<body>
+
+<div id="poc-banner"></div>
+
+<nav id="n">
+  <div class="nw">
+    <a href="/"><img src="/images/logo.png" alt="NCC Education Group"></a>
+    <div class="nr">
+      <a href="#about" class="desk">About</a>
+      <a href="#institutions" class="desk">Institutions</a>
+      <a href="#careers" class="desk">Careers</a>
+      <a href="#contact" class="desk">Contact</a>
+      <a href="#contact" class="cta-l">Enquire</a>
+      <button class="mb" aria-label="Menu">
+        <svg width="20" height="14" fill="none"><rect width="20" height="1.5" rx=".75" fill="#005853"/><rect y="6" width="20" height="1.5" rx=".75" fill="#005853"/><rect y="12" width="14" height="1.5" rx=".75" fill="#005853"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero-bg">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+</div>
+
+<section class="hero" id="hero-section"></section>
+<section class="bento-section" id="institutions"></section>
+<section class="editorial" id="about"></section>
+<div class="stats" id="stats-section"></div>
+<section class="careers" id="careers"></section>
+<section class="contact" id="contact"></section>
+<footer id="footer-section"></footer>
+
+<script>
+// Load all data files and render the site
+async function loadData(file) {
+  const res = await fetch(`/data/${file}.json`);
+  return res.json();
+}
+
+// Simple markdown bold to HTML
+function md(text) {
+  if (!text) return '';
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+}
+
+async function render() {
+  const [settings, hero, about, institutions, stats, careers, contact] = await Promise.all([
+    loadData('settings'), loadData('hero'), loadData('about'),
+    loadData('institutions'), loadData('stats'), loadData('careers'), loadData('contact')
+  ]);
+
+  // POC Banner
+  if (settings.show_poc_banner) {
+    document.getElementById('poc-banner').innerHTML = `
+      <div class="poc-banner" id="pocBanner">
+        ${settings.poc_banner_text}
+        <button onclick="document.getElementById('pocBanner').classList.add('hidden')" aria-label="Dismiss">&times;</button>
+      </div>`;
+  }
+
+  // Hero
+  document.getElementById('hero-section').innerHTML = `
+    <div class="hero-left">
+      <h1 class="hero-headline">
+        <span class="line">${hero.line1}</span>
+        <span class="line"><span class="accent">${hero.line2}</span></span>
+      </h1>
+      <p class="hero-desc">${hero.desc_line1}<br>${hero.desc_line2}</p>
+      <a href="${hero.cta_url}" class="hero-link">${hero.cta_text} &rarr;</a>
+    </div>
+    <div class="hero-right">
+      <img src="${hero.image}" alt="NCC Education Group students from early learners through to senior school">
+    </div>`;
+
+  // Institutions
+  let cardsHtml = '';
+  institutions.cards.forEach((card, i) => {
+    const delay = i > 0 ? ` rv-d${i}` : '';
+    if (card.layout === 'featured') {
+      cardsHtml += `
+        <div class="b-card b-ncc rv">
+          <div class="b-tag">${card.tagline}</div>
+          <h3>${card.name}</h3>
+          <p>${card.description}</p>
+          <a href="${card.url}" class="b-link" target="_blank">${card.url_display} &rarr;</a>
+        </div>`;
+    } else if (card.layout === 'horizontal') {
+      cardsHtml += `
+        <div class="b-card b-swim rv${delay}">
+          <div class="b-swim-left">
+            <div class="b-swim-dot">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c3)" stroke-width="1.5" stroke-linecap="round"><path d="M2 20c2-1 4-1 6 0s4 1 6 0 4-1 6 0M2 16c2-1 4-1 6 0s4 1 6 0 4-1 6 0"/><circle cx="12" cy="8" r="3"/></svg>
+            </div>
+            <div>
+              <h3>${card.name} <span>&middot; ${card.tagline}</span></h3>
+              <p>${card.description}</p>
+            </div>
+          </div>
+          <a href="${card.url}" class="b-link-dark" target="_blank">${card.url_display} &rarr;</a>
+        </div>`;
+    } else {
+      const bgClass = i === 1 ? 'b-gulf' : 'b-early';
+      cardsHtml += `
+        <div class="b-card ${bgClass} rv${delay}">
+          <div class="b-tag">${card.tagline}</div>
+          <h3>${card.name}</h3>
+          <p>${card.description}</p>
+          <a href="${card.url}" class="b-link-dark" target="_blank">${card.url_display} &rarr;</a>
+        </div>`;
+    }
+  });
+
+  document.getElementById('institutions').innerHTML = `
+    <div class="bento-header rv">
+      <h2>Our <span class="accent">Institutions</span></h2>
+      <p>${institutions.desc_line1}<br>${institutions.desc_line2}<br>${institutions.desc_line3}</p>
+    </div>
+    <div class="bento">${cardsHtml}</div>`;
+
+  // About
+  let parasHtml = '';
+  about.paragraphs.forEach((p, i) => {
+    const delay = i > 0 ? ` rv-d${i}` : '';
+    parasHtml += `<p class="rv${delay}">${md(p.text)}</p>`;
+  });
+
+  const quoteLines = about.quote.split('\n').join('<br>');
+  document.getElementById('about').innerHTML = `
+    <div class="ed-grid">
+      <div class="ed-left rv">
+        <h2><strong>Growing</strong> the <span class="accent">whole person.</span></h2>
+        <div class="ed-tagline">${about.mission}</div>
+        <div class="ed-quote">
+          <p>${quoteLines}</p>
+          <cite style="display:block;margin-top:.6rem;font-family:'DM Sans',sans-serif;font-style:normal;font-size:.7rem;font-weight:600;color:var(--c4);letter-spacing:.06em;">${about.quote_author}</cite>
+        </div>
+      </div>
+      <div class="ed-right">${parasHtml}</div>
+    </div>`;
+
+  // Stats
+  let statsHtml = '';
+  stats.items.forEach((s, i) => {
+    const delay = i > 0 ? ` rv-d${i}` : '';
+    statsHtml += `<div class="stat-card rv${delay}"><div class="stat-num">${s.number}</div><div class="stat-label">${s.label}</div></div>`;
+  });
+  document.getElementById('stats-section').innerHTML = `<div class="stats-inner">${statsHtml}</div>`;
+
+  // Careers
+  let listingsHtml = '';
+  careers.listings.forEach(l => {
+    listingsHtml += `<div class="careers-role"><h4>${l.title}</h4><span>${l.location}</span></div>`;
+  });
+  document.getElementById('careers').innerHTML = `
+    <div class="careers-w">
+      <div class="careers-grid">
+        <div class="careers-left rv">
+          <h2><strong>Work</strong> with <span class="accent">us.</span></h2>
+          <p>${careers.desc_line1}<br>${careers.desc_line2}</p>
+          <a href="${careers.url}" class="careers-btn">View All Openings &rarr;</a>
+        </div>
+        <div class="careers-roles rv rv-d2">${listingsHtml}</div>
+      </div>
+    </div>`;
+
+  // Contact
+  const instLinks = institutions.cards.map((c, i) => {
+    const colors = ['var(--red)', 'var(--c3)', '#c9a23e', 'var(--c2)'];
+    const host = c.url.replace(/https?:\/\//, '').replace(/\/$/, '');
+    return `<a href="${c.url}" class="cr-item" target="_blank"><div class="cr-dot" style="background:${colors[i]}"></div><div><h4>${c.name}</h4></div><span>${host}</span></a>`;
+  }).join('');
+
+  document.getElementById('contact').innerHTML = `
+    <div class="contact-grid">
+      <div class="contact-left rv">
+        <h2><strong>Get in</strong> <span class="accent">touch.</span></h2>
+        <p>${contact.description}</p>
+        <a href="${contact.url}" class="contact-btn">Enquire Now &rarr;</a>
+      </div>
+      <div class="contact-right rv rv-d2">${instLinks}</div>
+    </div>`;
+
+  // Footer
+  const footerLinks = institutions.cards.map(c =>
+    `<a href="${c.url}" target="_blank">${c.name}</a>`
+  ).join('');
+
+  document.getElementById('footer-section').innerHTML = `
+    <div class="fw">
+      <div class="ft-b">
+        <img src="/images/logo.png" alt="NCC Education Group">
+        <p>${settings.footer_description}</p>
+      </div>
+      <div class="ft-ls">
+        <div class="ft-c"><h6>Institutions</h6>${footerLinks}</div>
+        <div class="ft-c"><h6>Group</h6><a href="#about">About</a><a href="#careers">Careers</a><a href="#contact">Contact</a></div>
+      </div>
+    </div>
+    <div class="ft-bot"><p>&copy; ${new Date().getFullYear()} NCC Education Group</p><span class="accent">${settings.slogan}</span></div>`;
+
+  // Init animations after render
+  initAnimations();
+}
+
+function initAnimations() {
+  // Nav scroll
+  const n = document.getElementById('n');
+  const sc = () => n.classList.toggle('s', window.scrollY > 40);
+  sc(); window.addEventListener('scroll', sc);
+
+  // Scroll reveal
+  const ro = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); ro.unobserve(e.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Hero orb parallax
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+    document.querySelectorAll('.hero-orb').forEach((orb, i) => {
+      const speed = [12, 8, 20][i] || 10;
+      orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+    });
+  });
+}
+
+render();
+</script>
+</body>
+</html>
