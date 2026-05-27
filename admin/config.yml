@@ -2,6 +2,7 @@ backend:
   name: github
   repo: harrisonblackNCC/ncc-education-group
   branch: main
+  base_url: https://ncc-education-group.netlify.app
 
 media_folder: "images"
 public_folder: "/images"
